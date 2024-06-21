@@ -1,6 +1,13 @@
 import users from '../db/users.js';
+import { 
+  encode, 
+} from '../services/authentication.service.js';
 
-export const login = (req, res) => {
+const ONE_MS = 1000;
+
+export const login = async (req, res) => {
+  console.log(req.body);
+
   const {
     email,
     password,
@@ -35,12 +42,25 @@ export const login = (req, res) => {
       });
   }
 
+  const now = Date.now();
+
+  const { 
+    token, 
+  } = await encode({
+    sub: existentedUser.email,
+    name: existentedUser.name,
+    // Issued At: cuando se creo el token.
+    iat: now,
+    // Expired At: tiempo de cuando expira el token.
+    exp: now + (ONE_MS * 60 * 60), // 1h 
+  });
+
   return res
     .status(200)
     .json({
       success: true,
       data: { 
-        ...existentedUser, 
+        token,
       },
     });
 };
