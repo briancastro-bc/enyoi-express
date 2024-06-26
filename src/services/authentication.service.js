@@ -1,18 +1,27 @@
-import { SignJWT, generateSecret, } from 'jose';
+import { createSecretKey, } from 'crypto';
+import { 
+  jwtVerify, 
+  decodeJwt,
+  SignJWT, 
+} from 'jose';
 
+const SECRET_KEY = createSecretKey(process.env.APP_SECRET, 'utf-8');
+
+/**
+ * 
+ * Creacion del token.
+ * 
+ */
 const encode = async (payload) => {
   try {
     const {
-      exp,
-      iat,
-      sub,
+      exp, // expiración del token
+      iat, // Cuando se creo el token
+      sub, // Para quien se genero: id, email o username
       // args = { name: 'Brian' }
       ...args 
     } = payload;
 
-    // const secretKey = process.env.APP_SECRET;
-    const secretKey = await generateSecret('HS256');
-  
     const token = await new SignJWT()
       .setProtectedHeader({
         alg: 'HS256',
@@ -20,10 +29,7 @@ const encode = async (payload) => {
       .setExpirationTime(exp)
       .setIssuedAt(iat)
       .setSubject(sub)
-      .sign(
-        secretKey,
-        args,
-      );
+      .sign(SECRET_KEY);
     
     return {
       success: true,
@@ -34,9 +40,23 @@ const encode = async (payload) => {
   }
 };
 
-const decode = () => {};
+const decode = (encoded) => {
+  try {
+    const payload = decodeJwt(encoded);
+    return payload;
+  } catch (err) {
+    return { success: false, };
+  }
+};
 
-const verify = () => {};
+const verify = async (encoded) => {
+  try {
+    const payload = await jwtVerify(encoded, SECRET_KEY);
+    return payload;
+  } catch (err) {
+    return { success: false, };
+  }
+};
 
 export {
   encode,

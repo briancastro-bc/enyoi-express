@@ -1,17 +1,30 @@
+import { randomUUID, } from 'crypto';
+
 import users from '../db/users.js';
+import User from '../db/models/user.model.js';
+
 import { 
-  encode, 
+  encode,
+  decode, 
+  verify,
 } from '../services/authentication.service.js';
 
 const ONE_MS = 1000;
 
 export const login = async (req, res) => {
-  console.log(req.body);
-
   const {
     email,
     password,
   } = req.body;
+  
+  if (!token) {
+    return res
+      .status(401)
+      .json({
+        success: false,
+        message: 'No hay token',
+      });
+  }
 
   if (!email || !password) {
     return res
@@ -44,14 +57,13 @@ export const login = async (req, res) => {
 
   const now = Date.now();
 
+  // Generando/Codificando el token
   const { 
     token, 
   } = await encode({
     sub: existentedUser.email,
     name: existentedUser.name,
-    // Issued At: cuando se creo el token.
     iat: now,
-    // Expired At: tiempo de cuando expira el token.
     exp: now + (ONE_MS * 60 * 60), // 1h 
   });
 
@@ -61,6 +73,7 @@ export const login = async (req, res) => {
       success: true,
       data: { 
         token,
+        payload,
       },
     });
 };
@@ -72,7 +85,7 @@ export const login = async (req, res) => {
  * - Password
  * 
  */
-export const signup = (req, res) => {
+export const signup = async (req, res) => {
   const {
     name,
     email,
@@ -88,7 +101,8 @@ export const signup = (req, res) => {
       });
   }
 
-  const existentedUser = users.find(user => user.email === email);
+  // SELECT * FROM USERS WHERE EMAIL = 'brian@mail.com' TOP 1;
+  const existentedUser = await User.findOne({ email, });
   if (existentedUser) {
     return res
       .status(400)
@@ -107,8 +121,10 @@ export const signup = (req, res) => {
       });
   }
 
-  // INSERT INTO Users(name, email, password) VALUES('Brian', 'example@mail.com', '12345678');
-  users.push({
+  // INSERT INTO User(id, name, email, password) VALUES('iasjdklasjdklasjd', 'Brian', 'example@mail.com', '12345678');
+  const uuid = randomUUID();
+  await User.create({
+    id: uuid,
     name,
     email,
     password,
