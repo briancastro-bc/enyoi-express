@@ -7,13 +7,28 @@ import { sequelize, } from '../connection.js';
  * Definición de un Modelo.
  * 
  */
+/***
+ *
+ * 
+ * CREATE TABLE IF NOT EXISTS User(
+  *   id VARCHAR(36) PRIMARY_KEY NOT NULL,
+  *   name VARCHAR NOT NULL,
+  *   email VARCHAR NOT NULL UNIQUE,
+  *   password VARCHAR NOT NULL,
+ * );
+ * 
+ * // NO UTILIZAMOS SQL
+ * 
+ * UTILIZAMOS LENGUAJE DE PROGRAMACIÓN
+ * 
+ */
+
 const User = sequelize.define(
   'User',
   {
     id: {
-      type: DataTypes.UUIDV4,
+      type: DataTypes.STRING,
       primaryKey: true,
-      unique: true,
     },
     name: {
       type: DataTypes.STRING,
@@ -34,4 +49,14 @@ const User = sequelize.define(
   },
 );
 
-export default User;
+/***
+ * 
+ * Nos convierte el codigo de Javascript
+ * a codigo de SQL
+ * 
+ */
+User.sync({
+  // force: true,
+}); 
+
+export { User };
