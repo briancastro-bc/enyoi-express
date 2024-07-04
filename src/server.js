@@ -13,9 +13,11 @@ function bootstrap() {
   const port = +process.env.APP_PORT ?? 3000;
   
   app.use(express.json());
+  // Forma 1. Utilizar el middleware a nivel global.
   // app.use(authenticationMiddleware);
-  app.use('/users', usersRouter);
   app.use('/auth', authenticationRouter);
+  // Forma 2. Utilizar el middleware a nivel de router.
+  app.use('/users', authenticationMiddleware, usersRouter);
 
   app.get('/', (req, res) => {
     console.log('req body', req.body);

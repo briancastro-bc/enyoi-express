@@ -28,6 +28,7 @@ const encode = async (payload) => {
       })
       .setExpirationTime(exp)
       .setIssuedAt(iat)
+      .setIssuer(process.env.APP_URL)
       .setSubject(sub)
       .sign(SECRET_KEY);
     

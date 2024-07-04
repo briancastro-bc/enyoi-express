@@ -56,6 +56,7 @@ export const login = async (req, res) => {
     name: existentedUser.name,
     iat: now,
     exp: now + (ONE_MS * 60 * 60), // 1h 
+    // exp: now + 1000,
   });
 
   return res

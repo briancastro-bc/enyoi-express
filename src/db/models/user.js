@@ -7,7 +7,7 @@ import { sequelize, } from '../connection.js';
  * Definición de un Modelo.
  * 
  */
-/***
+/**
  *
  * 
  * CREATE TABLE IF NOT EXISTS User(
