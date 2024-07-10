@@ -93,7 +93,7 @@ export const signup = async (req, res) => {
   }
 
   // SELECT * FROM USERS WHERE EMAIL = 'brian@mail.com' TOP 1;
-  const existentedUser = await User.findOne({ email, });
+  const existentedUser = await User.findOne({ where: { email }, });
   if (existentedUser) {
     return res
       .status(400)

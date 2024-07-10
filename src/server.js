@@ -1,4 +1,5 @@
 import 'dotenv/config';
+import cors from 'cors';
 import express from 'express';
 import { createServer, } from 'http';
 
@@ -11,8 +12,13 @@ function bootstrap() {
   const app = express();
   // Llamar a una variable: process.env.<nombre de la variable>
   const port = +process.env.APP_PORT ?? 3000;
-  
+ 
   app.use(express.json());
+  app.use(cors());
+  // app.use(cors({
+  //   origin: process.env.APP_CORS,
+  //   methods: ['GET', 'POST',],
+  // }));
   // Forma 1. Utilizar el middleware a nivel global.
   // app.use(authenticationMiddleware);
   app.use('/auth', authenticationRouter);

@@ -47,7 +47,6 @@ const authenticationMiddleware = async (req, res, next) => {
   // subject (el identificar del usuario).
   // Validar que el token no haya expirado.
   const now = new Date();
-  const expiration = new Date(exp);
   if (exp <= now.getTime()) {
     return res
       .status(401)
