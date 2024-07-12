@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import cors from 'cors';
+import morgan from 'morgan';
 import express from 'express';
 import { createServer, } from 'http';
 
@@ -13,6 +14,7 @@ function bootstrap() {
   // Llamar a una variable: process.env.<nombre de la variable>
   const port = +process.env.APP_PORT ?? 3000;
  
+  app.use(morgan('dev'));
   app.use(express.json());
   app.use(cors());
   // app.use(cors({

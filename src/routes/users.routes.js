@@ -7,6 +7,6 @@ const usersRouter = Router();
 
 // Forma 3. Pasarle el middleware a la ruta especifica que queremos proteger.
 // usersRouter.get('/', authenticationMiddleware, getAllUsers);
-usersRouter.get('/', getAllUsers);
+usersRouter.get('/', authenticationMiddleware, getAllUsers);
 
 export default usersRouter;
