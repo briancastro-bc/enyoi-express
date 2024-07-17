@@ -4,8 +4,10 @@ import morgan from 'morgan';
 import express from 'express';
 import { createServer, } from 'http';
 
+import adminMiddleware from './middlewares/admin.middleware.js';
 import authenticationMiddleware from './middlewares/authentication.middleware.js';
 
+import adminRouter from './routes/admin.routes.js';
 import usersRouter from './routes/users.routes.js';
 import authenticationRouter from './routes/authentication.routes.js';
 
@@ -26,10 +28,9 @@ function bootstrap() {
   app.use('/auth', authenticationRouter);
   // Forma 2. Utilizar el middleware a nivel de router.
   app.use('/users', authenticationMiddleware, usersRouter);
+  app.use('/admin', authenticationMiddleware, adminMiddleware, adminRouter);
 
   app.get('/', (req, res) => {
-    console.log('req body', req.body);
-
     res.send('Hola mundo!');
   });
   

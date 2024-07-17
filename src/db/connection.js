@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import { Sequelize, } from 'sequelize';
 
 const DB_USERNAME = process.env.DB_USERNAME;
@@ -25,6 +26,12 @@ const sequelize = new Sequelize(
   },
 );
 
+const DB_MONGO_URI = process.env.DB_MONGO_URI;
+
+const mongo = mongoose.connect(DB_MONGO_URI, {
+  dbName: DB_DATABASE_NAME,
+});
+
 try {
   await sequelize.authenticate();
   console.log('Connected to database');
@@ -33,5 +40,6 @@ try {
 }
 
 export {
+  mongo,
   sequelize,
 }

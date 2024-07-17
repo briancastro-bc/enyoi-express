@@ -1,6 +1,6 @@
 import { randomUUID, } from 'crypto';
 
-import { User, } from '../db/models/user.js';
+import { User, } from '../db/models/index.js';
 
 import { encode, } from '../services/authentication.service.js';
 import { encryptPassword, isValidPassword, } from '../services/password.service.js';
@@ -23,7 +23,7 @@ export const login = async (req, res) => {
   }
 
   // SELECT * FROM Users WHERE email = ${email}
-  const existentedUser = await User.findOne({ email, });
+  const existentedUser = await User.findOne({ where: { email, }, });
   if (!existentedUser) {
     return res
       .status(401)
@@ -123,6 +123,9 @@ export const signup = async (req, res) => {
     name,
     email,
     password: encryptedPassword,
+    phoneNumber: null,
+    address: null,
+    isAdmin: false,
   });
 
   return res

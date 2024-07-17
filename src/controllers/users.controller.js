@@ -1,6 +1,8 @@
-import users from '../db/users.js';
+import { User, } from '../db/models/index.js';
 
-export const getAllUsers = (req, res) => {
+export const getAllUsers = async (req, res) => {
+  const users = await User.findAll();
+
   if (!users || users.length <= 0) {
     return res
       .status(404)

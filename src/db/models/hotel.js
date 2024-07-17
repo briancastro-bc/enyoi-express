@@ -1,9 +1,9 @@
 import { DataTypes, } from 'sequelize';
 
-import { sequelize, } from '../connection.js';
+import { sequelize } from '../connection.js';
 
-const User = sequelize.define(
-  'User',
+const Hotel = sequelize.define(
+  'Hotel',
   {
     id: {
       type: DataTypes.STRING(36),
@@ -13,16 +13,19 @@ const User = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    email: {
+    description: {
       type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
+      allowNull: true,
     },
-    password: {
+    photo: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
-    phoneNumber: {
+    country: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    city: {
       type: DataTypes.STRING,
       allowNull: true,
     },
@@ -30,25 +33,24 @@ const User = sequelize.define(
       type: DataTypes.STRING,
       allowNull: true,
     },
-    isAdmin: {
+    ranking: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    isActive: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
-      defaultValue: false,
+      defaultValue: true,
     },
   },
   {
     timestamps: true,
+    
   },
 );
 
-/***
- * 
- * Nos convierte el codigo de Javascript
- * a codigo de SQL
- * 
- */
-User.sync({
-  // force: true,
-}); 
+Hotel.sync({
+  force: true,
+});
 
-export default User;
+export default Hotel;
