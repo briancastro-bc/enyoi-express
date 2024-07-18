@@ -49,8 +49,4 @@ const Hotel = sequelize.define(
   },
 );
 
-Hotel.sync({
-  force: true,
-});
-
 export default Hotel;

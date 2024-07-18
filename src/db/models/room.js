@@ -34,18 +34,10 @@ const Room = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    hotelId: {
-      type: DataTypes.STRING(36),
-      allowNull: false,
-    }
   },
   {
     timestamps: true,
   },
 );
-
-Room.sync({
-  force: true,
-});
 
 export default Room;

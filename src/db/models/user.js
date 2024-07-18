@@ -41,14 +41,4 @@ const User = sequelize.define(
   },
 );
 
-/***
- * 
- * Nos convierte el codigo de Javascript
- * a codigo de SQL
- * 
- */
-User.sync({
-  // force: true,
-}); 
-
 export default User;
