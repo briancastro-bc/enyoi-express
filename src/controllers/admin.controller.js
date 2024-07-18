@@ -1,4 +1,3 @@
-import { Op, } from 'sequelize';
 import { randomUUID, } from 'crypto';
 
 import { Room, Hotel, } from '../db/models/index.js';
@@ -188,18 +187,16 @@ export const createRoom = async (req, res) => {
     await Room.create({
       id: uuid,
       ...req.body,
-      hotelId,
+      HotelId: hotelId,
     });
 
     return res
       .status(201)
       .json({
         success: true,
-        message: 'Se ha creado el hotel',
+        message: `Se ha creado la habitacion para el hotel ${hotelId}`,
       });
   } catch (err) {
-    console.log(err);
-
     return res
       .status(400)
       .json({
@@ -210,9 +207,93 @@ export const createRoom = async (req, res) => {
 };
 
 export const updateRoom = async (req, res) => {
-  return res.send('Works');
+  const codeName = req.params['codeName'];
+
+  try {
+    const roomByCodeName = await Room.findOne({
+      where: { 
+        codeName, 
+      },
+    });
+    if (!roomByCodeName) {
+      return res
+        .status(404)
+        .json({
+          success: false,
+          message: 'La habitacion a actualizar no existe',
+        });
+    }
+
+    const updatedRoom = {
+      ...roomByCodeName,
+      ...req.body,
+    };
+
+    await Room.update({
+      ...updatedRoom,
+    }, {
+      where: {
+        codeName,
+      },
+    });
+
+    return res
+      .status(201)
+      .json({
+        success: true,
+        message: `Se ha actualizado la habitacion ${codeName}`,
+        data: {
+          ...updatedRoom,
+        },
+      });
+  } catch (err) {
+    return res
+      .status(400)
+      .json({
+        success: false,
+        message: 'Something went wrong',
+      });
+  }
 };
 
 export const deleteRoom = async (req, res) => {
-  return res.send('Works');
+  const codeName = req.params['codeName'];
+
+  try {
+    const roomByCodeName = await Room.findOne({
+      where: { 
+        codeName, 
+      },
+    });
+    if (!roomByCodeName) {
+      return res
+        .status(404)
+        .json({
+          success: false,
+          message: 'La habitacion ya fue borrada previamente o no existe',
+        });
+    }
+
+    // 1. Opcion: Borrado fisico
+    // DELETE FROM Hotels WHERE id = $id;
+    await Room.destroy({
+      where: {
+        codeName,
+      },
+    });
+
+    return res
+      .status(200)
+      .json({
+        success: true,
+        message: `Se ha eliminado la habitacion ${codeName}`,
+      });
+  } catch (err) {
+    return res
+      .status(400)
+      .json({
+        success: false,
+        message: 'Something went wrong',
+      });
+  }
 };

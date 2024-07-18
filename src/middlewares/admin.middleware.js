@@ -39,6 +39,7 @@ const adminMiddleware = async (req, res, next) => {
   }
 
   const {
+    id,
     exp,
     iss,
     sub,
@@ -85,7 +86,8 @@ const adminMiddleware = async (req, res, next) => {
       });
   }
 
-  req.userId = user?.id;
+  req.userId = user?.id ?? id;
+  req.userEmail = sub;
 
   next();
 };

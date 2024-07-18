@@ -38,6 +38,7 @@ const authenticationMiddleware = async (req, res, next) => {
   }
 
   const {
+    id,
     exp,
     iss,
     sub,
@@ -73,6 +74,9 @@ const authenticationMiddleware = async (req, res, next) => {
         message: 'El claim subject no esta presenta en el cuerpo del token',
       });
   }
+
+  req.userId = id;
+  req.userEmail = sub;
 
   next();
 };

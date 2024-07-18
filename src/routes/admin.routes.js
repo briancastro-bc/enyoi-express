@@ -24,9 +24,9 @@ router.delete('/hotels/:id', deleteHotel);
 router.post('/rooms', createRoom);
 
 // Actualizar habitaciones
-router.put('/rooms/:id', updateRoom);
+router.put('/rooms/:codeName', updateRoom);
 
 // Eliminar habitaciones
-router.delete('/rooms/:id', deleteRoom);
+router.delete('/rooms/:codeName', deleteRoom);
 
 export default router;

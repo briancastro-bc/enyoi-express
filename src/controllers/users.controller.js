@@ -12,8 +12,6 @@ export const getAllUsers = async (req, res) => {
       });
   }
 
-  // 'SELECT * FROM users';
-
   return res
     .status(200)
     .json({
@@ -23,5 +21,31 @@ export const getAllUsers = async (req, res) => {
       //   ...users,
       // ],
       data: users,
+    });
+};
+
+export const isUserAdmin = async (req, res) => {
+  const userId = req?.userId;
+
+  const userById = await User.findOne({
+    where: {
+      id: userId,
+    },
+  });
+
+  if (userById?.isAdmin) {
+    return res
+      .status(200)
+      .json({
+        success: true,
+        message: 'El usuario es administrador',
+      });
+  }
+
+  return res
+    .status(200)
+    .json({
+      success: false,
+      message: 'El usuario no es administrador',
     });
 };

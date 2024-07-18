@@ -5,8 +5,10 @@ import express from 'express';
 import { createServer, } from 'http';
 
 import adminMiddleware from './middlewares/admin.middleware.js';
+import validatorMiddleware from './middlewares/validator.middleware.js';
 import authenticationMiddleware from './middlewares/authentication.middleware.js';
 
+import hotelRouter from './routes/hotel.routes.js';
 import adminRouter from './routes/admin.routes.js';
 import usersRouter from './routes/users.routes.js';
 import authenticationRouter from './routes/authentication.routes.js';
@@ -27,6 +29,7 @@ function bootstrap() {
   // app.use(authenticationMiddleware);
   app.use('/auth', authenticationRouter);
   // Forma 2. Utilizar el middleware a nivel de router.
+  app.use('/hotels', hotelRouter);
   app.use('/users', authenticationMiddleware, usersRouter);
   app.use('/admin', authenticationMiddleware, adminMiddleware, adminRouter);
 
