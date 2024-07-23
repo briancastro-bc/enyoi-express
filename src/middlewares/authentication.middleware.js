@@ -28,7 +28,7 @@ const authenticationMiddleware = async (req, res, next) => {
   }
 
   const { payload, } = await verify(token);
-  if ('success' in payload && !payload.success) {
+  if (payload && 'success' in payload && !payload.success) {
     return res
       .status(401)
       .json({

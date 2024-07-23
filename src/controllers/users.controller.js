@@ -24,12 +24,46 @@ export const getAllUsers = async (req, res) => {
     });
 };
 
-export const isUserAdmin = async (req, res) => {
-  const userId = req?.userId;
+export const getUserByToken = async (req, res) => {
+  const userEmail = req?.userEmail;
+  if (!userEmail) {
+    return res
+      .status(404)
+      .json({
+        success: false,
+        message: 'Usuario no tiene token',
+      });
+  }
 
   const userById = await User.findOne({
     where: {
-      id: userId,
+      email: userEmail,
+    },
+  });
+  if (!userById) {
+    return res
+      .status(404)
+      .json({
+        success: false,
+        message: 'no se encontro el usuario',
+      });
+  }
+
+  return {
+    success: true,
+    length: 1,
+    data: {
+      ...userById?.dataValues,
+    }
+  }
+};
+
+export const isUserAdmin = async (req, res) => {
+  const userEmail = req?.userEmail;
+
+  const userById = await User.findOne({
+    where: {
+      email: userEmail,
     },
   });
 
