@@ -38,7 +38,6 @@ const authenticationMiddleware = async (req, res, next) => {
   }
 
   const {
-    id,
     exp,
     iss,
     sub,
@@ -75,7 +74,6 @@ const authenticationMiddleware = async (req, res, next) => {
       });
   }
 
-  req.userId = id;
   req.userEmail = sub;
 
   next();
