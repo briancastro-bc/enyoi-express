@@ -12,6 +12,7 @@ import adminRouter from './routes/admin.routes.js';
 import usersRouter from './routes/users.routes.js';
 import searchRouter from './routes/search.routes.js';
 import authenticationRouter from './routes/authentication.routes.js';
+import reservationRouter from './routes/reservation.routes.js';
 
 function bootstrap() {
   const app = express();
@@ -32,6 +33,7 @@ function bootstrap() {
   app.use('/hotels', hotelRouter);
   app.use('/search', searchRouter);
   app.use('/users', authenticationMiddleware, usersRouter);
+  app.use('/reservations', authenticationMiddleware, reservationRouter);
   app.use('/admin', authenticationMiddleware, adminMiddleware, adminRouter);
 
   app.get('/', (req, res) => {

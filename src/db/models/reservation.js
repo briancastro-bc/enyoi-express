@@ -5,7 +5,16 @@ import { sequelize } from '../connection.js';
 const Reservation = sequelize.define(
   'Reservation',
   {
-    date: {
+    id: {
+      type: DataTypes.STRING(36),
+      primaryKey: true,
+    },
+    startDate: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: new Date(),
+    },
+    endDate: {
       type: DataTypes.DATE,
       allowNull: false,
     },
@@ -25,6 +34,7 @@ const Reservation = sequelize.define(
     UserId: {
       type: DataTypes.STRING(36),
       allowNull: false,
+      unique: false,
       references: {
         model: 'User',
         key: 'id',
@@ -33,6 +43,7 @@ const Reservation = sequelize.define(
     RoomId: {
       type: DataTypes.STRING(36),
       allowNull: false,
+      unique: false,
       references: {
         model: 'Room',
         key: 'id',

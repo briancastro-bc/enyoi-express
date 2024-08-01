@@ -6,16 +6,11 @@ import Reservation from './reservation.js';
 Hotel.hasMany(Room);
 Room.belongsTo(Hotel);
 
-User.hasMany(Reservation);
-Reservation.belongsTo(User);
-
 User.belongsToMany(Room, { 
   through: Reservation, 
-  foreignKeyConstraint: true, 
 });
 Room.belongsToMany(User, { 
   through: Reservation, 
-  foreignKeyConstraint: true, 
 });
 
 Hotel.sync({
