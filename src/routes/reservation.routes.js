@@ -23,7 +23,8 @@ reservationRouter.post(
       .toDate(),
     body('nightsQuantity')
       .notEmpty()
-      .isInt(),
+      .isInt()
+      .toInt(),
     // body('total')
     //   .notEmpty()
     //   .isNumeric(),
