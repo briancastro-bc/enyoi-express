@@ -31,24 +31,6 @@ const Reservation = sequelize.define(
       type: DataTypes.FLOAT,
       allowNull: false,
     },
-    UserId: {
-      type: DataTypes.STRING(36),
-      allowNull: false,
-      unique: false,
-      references: {
-        model: 'User',
-        key: 'id',
-      },
-    },
-    RoomId: {
-      type: DataTypes.STRING(36),
-      allowNull: false,
-      unique: false,
-      references: {
-        model: 'Room',
-        key: 'id',
-      },
-    },
   },
   {
     timestamps: true,

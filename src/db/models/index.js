@@ -7,10 +7,16 @@ Hotel.hasMany(Room);
 Room.belongsTo(Hotel);
 
 User.belongsToMany(Room, { 
-  through: Reservation, 
+  through: {
+    model: Reservation,
+    unique: false,
+  }, 
 });
 Room.belongsToMany(User, { 
-  through: Reservation, 
+  through: {
+    model: Reservation,
+    unique: false,
+  }, 
 });
 
 Hotel.sync({
